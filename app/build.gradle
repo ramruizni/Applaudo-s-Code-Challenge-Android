@@ -23,11 +23,17 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        Properties props = new Properties()
+        props.load(project.rootProject.file("local.properties").newDataInputStream())
+        buildConfigField "String", "API_URL", "\"${props.getProperty("API_URL")}\""
+        buildConfigField "String", "API_KEY", "\"${props.getProperty("API_KEY")}\""
+        buildConfigField "String", "API_IMAGE_URL", "\"${props.getProperty("API_IMAGE_URL")}\""
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

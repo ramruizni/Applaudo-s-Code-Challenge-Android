@@ -1,8 +1,11 @@
 package com.example.tmdbchallenge.commons
 
+import com.example.tmdbchallenge.BuildConfig
+
 object Constants {
-    // TODO: Add proper base url
-    const val API_URL = ""
+    const val API_URL = BuildConfig.API_URL
+    const val API_KEY = BuildConfig.API_KEY
+    const val API_IMAGE_URL = BuildConfig.API_IMAGE_URL
 
     const val DB_NAME = "db_name"
 

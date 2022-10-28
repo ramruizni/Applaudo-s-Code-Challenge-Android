@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tmdbchallenge.R
 import com.example.tmdbchallenge.presentation.destinations.LoginScreenDestination
+import com.example.tmdbchallenge.presentation.destinations.ShowListScreenDestination
 import com.example.tmdbchallenge.ui.composable.FormCheckbox
 import com.example.tmdbchallenge.ui.composable.FormTextField
 import com.ramcosta.composedestinations.annotation.Destination
@@ -37,7 +38,6 @@ fun LoginScreen(
             .collect { event ->
                 when (event) {
                     is LoginViewModel.ValidationEvent.Success -> {
-                        /*
                         navigator.navigate(
                             direction = ShowListScreenDestination(),
                             onlyIfResumed = true
@@ -46,7 +46,6 @@ fun LoginScreen(
                                 inclusive = true
                             }
                         }
-                         */
                     }
                 }
             }
