@@ -65,7 +65,7 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .aspectRatio(2f),
             contentScale = ContentScale.Fit,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
+            //colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
         )
 
         Spacer(modifier = Modifier.height(40.dp))

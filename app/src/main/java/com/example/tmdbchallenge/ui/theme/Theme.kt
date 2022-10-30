@@ -5,19 +5,23 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
-    tertiary = Pink80
+    tertiary = Pink80,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = PurplePrimary,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Color(0xFF6243FF),
+    secondary = Color.White,
+    tertiary = Color(0xFFD5D8DB),
+    surface = Color(0xFF6243FF),
+    //surfaceVariant = Color(0xFF0013CA),
+    background = Color(0xFFF0F2F5)
 )
 
 @Composable

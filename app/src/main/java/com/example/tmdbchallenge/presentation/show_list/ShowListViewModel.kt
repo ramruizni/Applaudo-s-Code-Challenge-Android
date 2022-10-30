@@ -35,21 +35,24 @@ class ShowListViewModel @Inject constructor(
                     getShows(page = (lastIndex / 20) + 1)
                 }
             }
-            is ShowListEvent.Logout -> {
-                // TODO: Implement Logout
+            is ShowListEvent.QueryChanged -> {
+                state = state.copy(showNameQuery = event.query)
+            }
+            is ShowListEvent.FilterChanged -> {
+                state = state.copy(showFilter = event.filter)
             }
         }
     }
 
     private fun getShows(page: Int) {
         viewModelScope.launch {
-            state.showNameQuery?.let { showName ->
-                useCases
-                    .getShowsByName(showName, page)
-                    .collect { collectGetShowsResult(it) }
-            } ?: run {
+            if (state.showNameQuery.isNullOrEmpty()) {
                 useCases
                     .getShowsByFilter(state.showFilter, page)
+                    .collect { collectGetShowsResult(it) }
+            } else {
+                useCases
+                    .getShowsByName(state.showNameQuery!!, page)
                     .collect { collectGetShowsResult(it) }
             }
         }

@@ -1,21 +1,22 @@
 package com.example.tmdbchallenge.presentation.show_list
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tmdbchallenge.R
+import com.example.tmdbchallenge.presentation.destinations.ShowDetailsScreenDestination
+import com.example.tmdbchallenge.ui.composable.SearchFilters
+import com.example.tmdbchallenge.ui.composable.SearchTextField
 import com.example.tmdbchallenge.ui.composable.box.EmptyListBox
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -30,7 +31,69 @@ fun ShowListScreen(
     val state = viewModel.state
 
     Scaffold(
-
+        topBar = {
+            if (state.showNameQuery == null) TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.show_list_title),
+                        style = MaterialTheme.typography.titleLarge
+                            .copy(color = Color.White)
+                    )
+                },
+                actions = {
+                    IconButton(onClick = {
+                        /* TODO: Create profile screen
+                        navigator.navigate(
+                            direction = ProfileScreenDestination(),
+                            onlyIfResumed = true
+                        ) {
+                            popUpTo(ShowListScreenDestination.route) {
+                                inclusive = true
+                            }
+                        }
+                         */
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_profile),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                    IconButton(onClick = {
+                        viewModel.onEvent(ShowListEvent.QueryChanged(query = ""))
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_search),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                }
+            )
+            else TopAppBar(
+                title = {
+                    SearchTextField(
+                        text = state.showNameQuery,
+                        onValueChange = {
+                            viewModel.onEvent(ShowListEvent.QueryChanged(it))
+                        },
+                        placeholder = stringResource(id = R.string.show_list_query_placeholder),
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        viewModel.onEvent(ShowListEvent.QueryChanged(query = null))
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_back),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                }
+            )
+        }
     ) { scaffoldPadding ->
         Column(
             modifier = Modifier
@@ -51,6 +114,14 @@ fun ShowListScreen(
                 EmptyListBox(text = stringResource(R.string.show_list_empty))
             }
 
+            Spacer(modifier = Modifier.height(24.dp))
+            SearchFilters(
+                currentFilter = state.showFilter,
+                onTap = {
+                    viewModel.onEvent(ShowListEvent.FilterChanged(it))
+                })
+            Spacer(modifier = Modifier.height(24.dp))
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -68,12 +139,10 @@ fun ShowListScreen(
                         ShowListItem(
                             modifier = Modifier
                                 .clickable {
-                                    /*
                                     navigator.navigate(
-                                        direction = ShowDetailsScreenDestination(entry = entry),
+                                        direction = ShowDetailsScreenDestination(show = show),
                                         onlyIfResumed = true
                                     )
-                                     */
                                 },
                             show = show
                         )

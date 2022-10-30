@@ -7,5 +7,13 @@
     <string name="toast_login_successful">Login Successful</string>
     <string name="toast_logout_successful">Logout Successful</string>
     <string name="error_unknown">An unknown error occurred</string>
+    <string name="show_list_title">Tv Shows</string>
     <string name="show_list_empty">Loading elements into the list…</string>
+    <string name="show_list_top_rated">Top Rated</string>
+    <string name="show_list_popular">Popular</string>
+    <string name="show_list_on_tv">On Tv</string>
+    <string name="show_list_airing_today">Airing Today</string>
+    <string name="show_list_query_placeholder">Search</string>
+    <string name="show_details_summary">Summary</string>
+    <string name="episode_list_empty">There are no\nepisodes yet</string>
 </resources>

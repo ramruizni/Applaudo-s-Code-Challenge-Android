@@ -11,12 +11,28 @@ import com.example.tmdbchallenge.R
 
 // TODO: Verify font family
 val Typography = Typography(
+    headlineLarge = TextStyle(
+        fontFamily = FontFamily.Serif,
+        fontWeight = FontWeight.W400,
+        fontSize = 34.sp,
+        lineHeight = 40.sp,
+        letterSpacing = 0.25.sp,
+        color = Color(0xFFFBFAFE)
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W400,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.4.sp,
+        color = Color(0xFFFBFAFE)
+    ),
     titleLarge = TextStyle(
-        fontFamily = FontFamily(Font(R.font.circular_std_medium)),
-        fontWeight = FontWeight.Bold,
-        fontSize = 36.sp,
-        lineHeight = 45.sp,
-        color = Color.White
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W500,
+        fontSize = 20.sp,
+        lineHeight = 24.sp,
+        color = Color(0xFF6B6B83)
     ),
     titleMedium = TextStyle(
         fontFamily = FontFamily(Font(R.font.circular_std_medium)),
@@ -26,11 +42,9 @@ val Typography = Typography(
         color = Color.White
     ),
     titleSmall = TextStyle(
-        fontFamily = FontFamily(Font(R.font.circular_std_medium)),
-        fontWeight = FontWeight.Bold,
-        fontSize = 16.sp,
-        lineHeight = 16.sp,
-        color = Color.White
+        fontWeight = FontWeight.W500,
+        fontSize = 14.sp,
+        color = Color(0xFF6B6B83)
     ),
     labelLarge = TextStyle(
         fontFamily = FontFamily(Font(R.font.circular_std_medium)),
@@ -53,11 +67,12 @@ val Typography = Typography(
         lineHeight = 22.77.sp,
         color = Color.White
     ),
-    bodyMedium = TextStyle(
-        fontFamily = FontFamily(Font(R.font.circular_std_medium)),
+    bodyLarge = TextStyle(
+        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        lineHeight = 40.sp,
-        color = Color.Black
+        lineHeight = 20.sp,
+        letterSpacing = 0.25.sp,
+        color = Color(0xFF6B6B83)
     )
 )
