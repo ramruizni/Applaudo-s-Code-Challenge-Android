@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tmdbchallenge.R
 import com.example.tmdbchallenge.presentation.destinations.LoginScreenDestination
+import com.example.tmdbchallenge.presentation.destinations.ShowListScreenDestination
 import com.example.tmdbchallenge.ui.composable.FormCheckbox
 import com.example.tmdbchallenge.ui.composable.FormTextField
 import com.ramcosta.composedestinations.annotation.Destination
@@ -29,7 +31,7 @@ fun LoginScreen(
     navigator: DestinationsNavigator,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state
+    val state = viewModel.state.collectAsState()
     val context = LocalContext.current
     LaunchedEffect(key1 = context) {
         viewModel
@@ -37,7 +39,6 @@ fun LoginScreen(
             .collect { event ->
                 when (event) {
                     is LoginViewModel.ValidationEvent.Success -> {
-                        /*
                         navigator.navigate(
                             direction = ShowListScreenDestination(),
                             onlyIfResumed = true
@@ -46,7 +47,6 @@ fun LoginScreen(
                                 inclusive = true
                             }
                         }
-                         */
                     }
                 }
             }
@@ -72,32 +72,32 @@ fun LoginScreen(
 
         Column(modifier = Modifier.fillMaxWidth()) {
             FormTextField(
-                value = state.email,
+                value = state.value.email,
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.EmailChanged(it))
                 },
-                errorMsg = state.emailError,
+                errorMsg = state.value.emailError,
                 placeholder = stringResource(R.string.login_email_placeholder),
                 keyboardType = KeyboardType.Email
             )
             Spacer(modifier = Modifier.height(24.dp))
             FormTextField(
-                value = state.password,
+                value = state.value.password,
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.PasswordChanged(it))
                 },
-                errorMsg = state.passwordError,
+                errorMsg = state.value.passwordError,
                 placeholder = stringResource(R.string.login_password_placeholder),
                 keyboardType = KeyboardType.Password
             )
             Spacer(modifier = Modifier.height(16.dp))
             FormCheckbox(
-                checked = state.acceptedTerms,
+                checked = state.value.acceptedTerms,
                 onCheckedChange = {
                     viewModel.onEvent(LoginEvent.AcceptedTerms(it))
                 },
                 description = stringResource(R.string.login_terms_description),
-                errorMsg = state.acceptedTermsError
+                errorMsg = state.value.acceptedTermsError
             )
         }
         Spacer(modifier = Modifier.height(40.dp))
