@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class Show(
     var id: Int,
     var name: String,
+    var originalName: String,
     var thumbnailUrl: String,
     var posterUrl: String,
     var summary: String,

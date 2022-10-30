@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tmdbchallenge.R
 import com.example.tmdbchallenge.presentation.destinations.LoginScreenDestination
+import com.example.tmdbchallenge.presentation.destinations.ShowListScreenDestination
 import com.example.tmdbchallenge.presentation.destinations.SplashScreenDestination
 import com.example.tmdbchallenge.ui.theme.SplashGradientBottom
 import com.example.tmdbchallenge.ui.theme.SplashGradientMid
@@ -36,16 +37,15 @@ fun SplashScreen(
             .splashEvents
             .collect { event ->
                 when (event) {
-                    // TODO: Create ShowList screen
                     is SplashViewModel.SplashEvent.NavigateToList -> {
-                        /*navigator.navigate(
-                            direction = ShowListDestination(),
+                        navigator.navigate(
+                            direction = ShowListScreenDestination(),
                             onlyIfResumed = true
                         ) {
                             popUpTo(SplashScreenDestination.route) {
                                 inclusive = true
                             }
-                        }*/
+                        }
                     }
                     is SplashViewModel.SplashEvent.NavigateToLogin -> {
                         navigator.navigate(

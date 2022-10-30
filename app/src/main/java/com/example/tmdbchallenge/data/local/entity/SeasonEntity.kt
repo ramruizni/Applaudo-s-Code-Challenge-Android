@@ -4,17 +4,14 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class ShowEntity(
+data class SeasonEntity(
     @PrimaryKey(autoGenerate = false)
     var id: Int,
+    var seasonNumber: Int,
+    var showId: Int,
     var name: String,
     var originalName: String,
-    var thumbnailUrl: String,
-    var posterUrl: String,
     var summary: String,
-    var rating: Double,
-    var popularity: Double,
-    var isOnTv: Boolean = false,
-    var isAiringToday: Boolean = false,
-    var isFavorite: Boolean = false,
+    var posterUrl: String,
+    var episodeCount: Int,
 )

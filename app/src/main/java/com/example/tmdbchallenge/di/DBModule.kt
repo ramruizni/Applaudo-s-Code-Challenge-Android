@@ -28,4 +28,13 @@ object DBModule {
     @Provides
     @Singleton
     fun provideShowDao(db: ShowDB) = db.getShowDao()
+
+    @Provides
+    @Singleton
+    fun provideSeasonDao(db: ShowDB) = db.getSeasonDao()
+
+    @Provides
+    @Singleton
+    fun provideEpisodeDao(db: ShowDB) = db.getEpisodeDao()
+
 }

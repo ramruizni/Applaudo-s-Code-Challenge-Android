@@ -1,7 +1,7 @@
 package com.example.tmdbchallenge.data.remote.tmdb.api
 
 import com.example.tmdbchallenge.commons.Constants.API_KEY
-import com.example.tmdbchallenge.data.remote.tmdb.dto.ShowListResponseDto
+import com.example.tmdbchallenge.data.remote.tmdb.dto.show.ShowListResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
