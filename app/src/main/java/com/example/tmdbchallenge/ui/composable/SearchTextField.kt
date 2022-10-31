@@ -36,11 +36,7 @@ fun SearchTextField(
         onValueChange = onValueChange,
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = Color.Red,
-                shape = RoundedCornerShape(8.dp) //rounded corners
-            )
-            .height(44.dp),
+            .height(32.dp),
         interactionSource = interactionSource,
         singleLine = true
     ) {
@@ -50,7 +46,7 @@ fun SearchTextField(
             singleLine = true,
             enabled = true,
             colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.White
+                containerColor = MaterialTheme.colorScheme.secondary
             ),
             visualTransformation = VisualTransformation.None,
             trailingIcon = { /* ... */ },

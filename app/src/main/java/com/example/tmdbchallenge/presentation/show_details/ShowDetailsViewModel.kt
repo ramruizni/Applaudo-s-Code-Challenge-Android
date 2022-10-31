@@ -27,26 +27,72 @@ class ShowDetailsViewModel @Inject constructor(
         getSeasons()
     }
 
-    private fun getSeasons() {
-        viewModelScope.launch {
-            state.show?.let { show ->
-                useCases.getSeasons(show.id)
-                    .collect { result ->
-                        when (result) {
-                            is Resource.Success -> {
-                                result.data?.let { seasons ->
-                                    state = state.copy(seasons = seasons)
+    fun onEvent(event: ShowDetailsEvent) {
+        when (event) {
+            is ShowDetailsEvent.ToggleFavorite -> {
+                state.show?.let { show ->
+                    viewModelScope.launch {
+                        useCases
+                            .toggleShowAsFavorite(show)
+                            .collect { result ->
+                                when (result) {
+                                    is Resource.Success -> {
+                                        result.data?.let { showToggled ->
+                                            state = state.copy(show = showToggled)
+                                        }
+                                    }
+                                    is Resource.Error -> {
+                                        // TODO: Propagate error to view
+                                    }
+                                    is Resource.Loading -> {
+                                        state = state.copy(isLoading = result.isLoading)
+                                    }
                                 }
                             }
-                            is Resource.Error -> {
-                                // TODO: Propagate error to view
-                            }
-                            is Resource.Loading -> {
-                                state = state.copy(isLoading = result.isLoading)
-                            }
-                        }
                     }
+                }
+            }
+            is ShowDetailsEvent.RetryAfterFailure -> {
+                retryAfterFailure()
             }
         }
+    }
+
+    private fun getSeasons() {
+        runAllowingRetry {
+            viewModelScope.launch {
+                state.show?.let { show ->
+                    useCases.getSeasons(show.id)
+                        .collect { result ->
+                            when (result) {
+                                is Resource.Success -> {
+                                    result.data?.let { seasons ->
+                                        state = state.copy(seasons = seasons)
+                                    }
+                                }
+                                is Resource.Error -> {
+                                    state = state.copy(errorTriggered = true)
+                                }
+                                is Resource.Loading -> {
+                                    state = state.copy(isLoading = result.isLoading)
+                                }
+                            }
+                        }
+                }
+            }
+        }
+    }
+
+    private fun runAllowingRetry(functionToRetry: () -> Unit) {
+        state = state.copy(
+            functionToRetry = functionToRetry,
+            errorTriggered = false
+        )
+        functionToRetry()
+    }
+
+    private fun retryAfterFailure() {
+        state = state.copy(errorTriggered = false)
+        state.functionToRetry?.let { it() }
     }
 }

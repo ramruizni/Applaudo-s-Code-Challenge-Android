@@ -7,9 +7,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -31,7 +30,7 @@ fun LoginScreen(
     navigator: DestinationsNavigator,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.collectAsState()
+    val state = viewModel.state
     val context = LocalContext.current
     LaunchedEffect(key1 = context) {
         viewModel
@@ -72,32 +71,32 @@ fun LoginScreen(
 
         Column(modifier = Modifier.fillMaxWidth()) {
             FormTextField(
-                value = state.value.email,
+                value = state.email,
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.EmailChanged(it))
                 },
-                errorMsg = state.value.emailError,
+                errorMsg = state.emailError,
                 placeholder = stringResource(R.string.login_email_placeholder),
                 keyboardType = KeyboardType.Email
             )
             Spacer(modifier = Modifier.height(24.dp))
             FormTextField(
-                value = state.value.password,
+                value = state.password,
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.PasswordChanged(it))
                 },
-                errorMsg = state.value.passwordError,
+                errorMsg = state.passwordError,
                 placeholder = stringResource(R.string.login_password_placeholder),
                 keyboardType = KeyboardType.Password
             )
             Spacer(modifier = Modifier.height(16.dp))
             FormCheckbox(
-                checked = state.value.acceptedTerms,
+                checked = state.acceptedTerms,
                 onCheckedChange = {
                     viewModel.onEvent(LoginEvent.AcceptedTerms(it))
                 },
                 description = stringResource(R.string.login_terms_description),
-                errorMsg = state.value.acceptedTermsError
+                errorMsg = state.acceptedTermsError
             )
         }
         Spacer(modifier = Modifier.height(40.dp))
@@ -105,6 +104,7 @@ fun LoginScreen(
             onClick = {
                 viewModel.onEvent(LoginEvent.Submit)
             },
+            shape = RectangleShape,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(

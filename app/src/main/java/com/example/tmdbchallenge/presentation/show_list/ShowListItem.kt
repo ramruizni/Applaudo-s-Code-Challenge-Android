@@ -28,7 +28,7 @@ fun ShowListItem(
         modifier = modifier
             .fillMaxWidth()
             .shadow(elevation = 8.dp, shape = RoundedCornerShape(8.dp))
-            .background(Color.White),
+            .background(MaterialTheme.colorScheme.primaryContainer),
     ) {
         GlideImage(
             modifier = Modifier
