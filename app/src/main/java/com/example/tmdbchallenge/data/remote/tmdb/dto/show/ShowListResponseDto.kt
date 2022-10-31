@@ -1,4 +1,4 @@
-package com.example.tmdbchallenge.data.remote.tmdb.dto
+package com.example.tmdbchallenge.data.remote.tmdb.dto.show
 
 data class ShowListResponseDto (
     val page: Int,

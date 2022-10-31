@@ -24,6 +24,7 @@ class ShowDaoTest {
     private val entity1 = Show(
         id = 1,
         name = "Ozark",
+        originalName = "Ozark",
         thumbnailUrl = "thumbnail/url",
         posterUrl = "poster/url",
         summary = "A good show",
@@ -37,6 +38,7 @@ class ShowDaoTest {
     private val entity2 = Show(
         id = 2,
         name = "Breaking Bad",
+        originalName = "Breaking Bad",
         thumbnailUrl = "thumbnail/url",
         posterUrl = "poster/url",
         summary = "Another good show",

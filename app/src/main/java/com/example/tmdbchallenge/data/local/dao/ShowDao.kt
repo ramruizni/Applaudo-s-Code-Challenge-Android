@@ -2,12 +2,16 @@ package com.example.tmdbchallenge.data.local.dao
 
 import androidx.room.*
 import com.example.tmdbchallenge.data.local.entity.ShowEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ShowDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(list: List<ShowEntity>)
+
+    @Query("SELECT * FROM showentity WHERE id=:showId")
+    suspend fun findById(showId: Int): List<ShowEntity>
 
     @Query("SELECT * FROM showentity ORDER BY rating ASC")
     suspend fun findAllSortedByRating(): List<ShowEntity>

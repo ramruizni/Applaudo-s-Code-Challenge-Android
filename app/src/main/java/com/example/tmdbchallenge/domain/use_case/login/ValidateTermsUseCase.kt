@@ -1,15 +1,17 @@
 package com.example.tmdbchallenge.domain.use_case.login
 
+import com.example.tmdbchallenge.commons.FormValidationResult
+
 class ValidateTermsUseCase {
 
-    operator fun invoke(acceptedTerms: Boolean): ValidationResult {
+    operator fun invoke(acceptedTerms: Boolean): FormValidationResult {
         if (!acceptedTerms) {
-            return ValidationResult(
+            return FormValidationResult(
                 isSuccessful = false,
                 errorMessage = "Please accept the terms"
             )
         }
-        return ValidationResult(
+        return FormValidationResult(
             isSuccessful = true
         )
     }

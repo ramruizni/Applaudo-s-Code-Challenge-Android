@@ -14,12 +14,13 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EmptyListBox(
+    modifier: Modifier = Modifier,
     padding: PaddingValues = PaddingValues(),
     text: String
 ) {
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(padding)
     ) {

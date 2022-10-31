@@ -8,6 +8,7 @@ data class ShowEntity(
     @PrimaryKey(autoGenerate = false)
     var id: Int,
     var name: String,
+    var originalName: String,
     var thumbnailUrl: String,
     var posterUrl: String,
     var summary: String,
