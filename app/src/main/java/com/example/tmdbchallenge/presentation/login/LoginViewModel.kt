@@ -1,14 +1,15 @@
 package com.example.tmdbchallenge.presentation.login
 
 import android.content.SharedPreferences
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tmdbchallenge.commons.Constants.SHARED_PREF_IS_LOGGED_IN
 import com.example.tmdbchallenge.domain.use_case.login.LoginUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,8 +20,8 @@ class LoginViewModel @Inject constructor(
     private val preferences: SharedPreferences
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(LoginState())
-    val state = _state.asStateFlow()
+    var state by mutableStateOf(LoginState())
+        private set
 
     private val validationEventChannel = Channel<ValidationEvent>()
     val validationEvents = validationEventChannel.receiveAsFlow()
@@ -28,19 +29,19 @@ class LoginViewModel @Inject constructor(
     fun onEvent(event: LoginEvent) {
         when (event) {
             is LoginEvent.EmailChanged -> {
-                _state.value = _state.value.copy(
+                state = state.copy(
                     email = event.email,
                     emailError = null
                 )
             }
             is LoginEvent.PasswordChanged -> {
-                _state.value = state.value.copy(
+                state = state.copy(
                     password = event.password,
                     passwordError = null
                 )
             }
             is LoginEvent.AcceptedTerms -> {
-                _state.value = _state.value.copy(
+                state = state.copy(
                     acceptedTerms = event.acceptedTerms,
                     acceptedTermsError = null
                 )
@@ -52,9 +53,9 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun submitForm() {
-        val emailResult = useCases.validateEmail(_state.value.email)
-        val passwordResult = useCases.validatePassword(_state.value.password)
-        val termsResult = useCases.validateTerms(_state.value.acceptedTerms)
+        val emailResult = useCases.validateEmail(state.email)
+        val passwordResult = useCases.validatePassword(state.password)
+        val termsResult = useCases.validateTerms(state.acceptedTerms)
 
         val hasError = listOf(
             emailResult,
@@ -63,7 +64,7 @@ class LoginViewModel @Inject constructor(
         ).any { !it.isSuccessful }
 
         if (hasError) {
-            _state.value = _state.value.copy(
+            state = state.copy(
                 emailError = emailResult.errorMessage,
                 passwordError = passwordResult.errorMessage,
                 acceptedTermsError = termsResult.errorMessage
@@ -76,7 +77,6 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
-        // TODO: Show login toast
     }
 
     sealed class ValidationEvent {

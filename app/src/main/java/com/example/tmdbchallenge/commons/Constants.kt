@@ -11,4 +11,7 @@ object Constants {
 
     const val SHARED_PREF_NAME = "prefs_name"
     const val SHARED_PREF_IS_LOGGED_IN = "prefs_name_is_logged_in"
+
+    const val SHARED_PREF_USER_NAME = "prefs_user_name"
+    const val SHARED_PREF_USER_SOCIAL_NETWORK = "prefs_user_social_network"
 }

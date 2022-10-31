@@ -1,5 +1,6 @@
 package com.example.tmdbchallenge.presentation.show_list
 
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -14,12 +15,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tmdbchallenge.R
+import com.example.tmdbchallenge.presentation.destinations.ProfileScreenDestination
 import com.example.tmdbchallenge.presentation.destinations.ShowDetailsScreenDestination
 import com.example.tmdbchallenge.ui.composable.SearchFilters
 import com.example.tmdbchallenge.ui.composable.SearchTextField
 import com.example.tmdbchallenge.ui.composable.box.EmptyListBox
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,16 +45,10 @@ fun ShowListScreen(
                 },
                 actions = {
                     IconButton(onClick = {
-                        /* TODO: Create profile screen
                         navigator.navigate(
                             direction = ProfileScreenDestination(),
                             onlyIfResumed = true
-                        ) {
-                            popUpTo(ShowListScreenDestination.route) {
-                                inclusive = true
-                            }
-                        }
-                         */
+                        )
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_profile),
@@ -102,6 +99,7 @@ fun ShowListScreen(
         ) {
 
             val gridState = rememberLazyGridState()
+            val coroutineScope = rememberCoroutineScope()
             val firstVisibleIndex by remember {
                 derivedStateOf { gridState.firstVisibleItemIndex }
             }
@@ -119,6 +117,9 @@ fun ShowListScreen(
                 currentFilter = state.showFilter,
                 onTap = {
                     viewModel.onEvent(ShowListEvent.FilterChanged(it))
+                    coroutineScope.launch {
+                        gridState.animateScrollToItem(0)
+                    }
                 })
             Spacer(modifier = Modifier.height(24.dp))
 

@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -82,13 +84,31 @@ fun ShowDetailsScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp, start = 16.dp, end = 16.dp)
+                .padding(top = 8.dp, start = 16.dp, end = 16.dp)
         ) {
-            Text(
-                text = stringResource(R.string.show_details_summary),
-                style = MaterialTheme.typography.titleLarge
-                    .copy(color = Color(0xFF6243FF))
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = stringResource(R.string.show_details_summary),
+                    style = MaterialTheme.typography.titleLarge
+                        .copy(color = Color(0xFF6243FF)),
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+                IconButton(onClick = {
+                    viewModel.onEvent(ShowDetailsEvent.ToggleFavorite)
+                }) {
+                    Icon(
+                        painter = painterResource(
+                            id = if (state.show != null && state.show.isFavorite)
+                                R.drawable.ic_favorite else R.drawable.ic_favorite_border
+                        ),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = show.summary,

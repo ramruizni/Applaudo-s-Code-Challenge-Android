@@ -15,4 +15,14 @@ interface ShowRepository {
         name: String,
         page: Int
     ): Resource<List<Show>>
+
+    suspend fun findShowById(
+        showId: Int
+    ): Resource<Show>
+
+    suspend fun updateShow(
+        show: Show
+    ): Resource<Show>
+
+    suspend fun getFavoriteShows(): Resource<List<Show>>
 }

@@ -27,6 +27,34 @@ class ShowDetailsViewModel @Inject constructor(
         getSeasons()
     }
 
+    fun onEvent(event: ShowDetailsEvent) {
+        when (event) {
+            is ShowDetailsEvent.ToggleFavorite -> {
+                state.show?.let { show ->
+                    viewModelScope.launch {
+                        useCases
+                            .toggleShowAsFavorite(show)
+                            .collect { result ->
+                                when (result) {
+                                    is Resource.Success -> {
+                                        result.data?.let { showToggled ->
+                                            state = state.copy(show = showToggled)
+                                        }
+                                    }
+                                    is Resource.Error -> {
+                                        // TODO: Propagate error to view
+                                    }
+                                    is Resource.Loading -> {
+                                        state = state.copy(isLoading = result.isLoading)
+                                    }
+                                }
+                            }
+                    }
+                }
+            }
+        }
+    }
+
     private fun getSeasons() {
         viewModelScope.launch {
             state.show?.let { show ->

@@ -35,11 +35,12 @@ val Typography = Typography(
         color = Color(0xFF6B6B83)
     ),
     titleMedium = TextStyle(
-        fontFamily = FontFamily(Font(R.font.circular_std_medium)),
-        fontWeight = FontWeight.Bold,
-        fontSize = 18.sp,
-        lineHeight = 22.77.sp,
-        color = Color.White
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W500,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.15.sp,
+        color = Color(0xFF6B6B83)
     ),
     titleSmall = TextStyle(
         fontWeight = FontWeight.W500,

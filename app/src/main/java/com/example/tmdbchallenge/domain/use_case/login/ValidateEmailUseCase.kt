@@ -1,25 +1,26 @@
 package com.example.tmdbchallenge.domain.use_case.login
 
+import com.example.tmdbchallenge.commons.FormValidationResult
 import com.example.tmdbchallenge.commons.Matchers
 
 
 class ValidateEmailUseCase {
 
-    operator fun invoke(email: String): ValidationResult {
+    operator fun invoke(email: String): FormValidationResult {
         if (email.isBlank()) {
-            return ValidationResult(
+            return FormValidationResult(
                 isSuccessful = false,
                 errorMessage = "The email can't be blank"
             )
         }
 
         if (!Matchers.isValidEmail(email)) {
-            return ValidationResult(
+            return FormValidationResult(
                 isSuccessful = false,
                 errorMessage = "That's not a valid email"
             )
         }
-        return ValidationResult(
+        return FormValidationResult(
             isSuccessful = true
         )
     }
