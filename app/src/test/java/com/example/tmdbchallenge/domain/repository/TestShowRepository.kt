@@ -14,6 +14,7 @@ class TestShowRepository : ShowRepository {
         summary = "A cool show",
         rating = 10.0,
         popularity = 9000.0,
+        originalName = "Ozark"
     )
 
     override suspend fun getShowsByFilter(showFilter: ShowFilter, page: Int): Resource<List<Show>> {
@@ -21,6 +22,18 @@ class TestShowRepository : ShowRepository {
     }
 
     override suspend fun getShowsByName(name: String, page: Int): Resource<List<Show>> {
+        return Resource.Success(listOf(fakeShow, fakeShow))
+    }
+
+    override suspend fun findShowById(showId: Int): Resource<Show> {
+        return Resource.Success(fakeShow)
+    }
+
+    override suspend fun updateShow(show: Show): Resource<Show> {
+        return Resource.Success(fakeShow)
+    }
+
+    override suspend fun getFavoriteShows(): Resource<List<Show>> {
         return Resource.Success(listOf(fakeShow, fakeShow))
     }
 }

@@ -1,32 +1,32 @@
-package com.example.tmdbchallenge.domain.use_case.show_list
+package com.example.tmdbchallenge.domain.use_case.show_details
 
 import app.cash.turbine.test
 import com.example.tmdbchallenge.commons.Resource
-import com.example.tmdbchallenge.domain.repository.ShowRepository
-import com.example.tmdbchallenge.domain.repository.TestShowRepository
+import com.example.tmdbchallenge.domain.repository.SeasonRepository
+import com.example.tmdbchallenge.domain.repository.TestSeasonRepository
 import com.example.tmdbchallenge.testability.TestDispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class GetShowsByFilterUseCaseTest {
-    private lateinit var getShowsByFilter: GetShowsByFilterUseCase
+class GetSeasonsUseCaseTest {
+    private lateinit var getSeasons: GetSeasonsUseCase
     private lateinit var testDispatchers: TestDispatchers
-    private lateinit var testShowRepository: ShowRepository
+    private lateinit var testSeasonRepository: SeasonRepository
 
     @Before
     fun setUp() {
         testDispatchers = TestDispatchers()
-        testShowRepository = TestShowRepository()
-        getShowsByFilter = GetShowsByFilterUseCase(
+        testSeasonRepository = TestSeasonRepository()
+        getSeasons = GetSeasonsUseCase(
             dispatchers = testDispatchers,
-            showRepository = testShowRepository
+            seasonRepository = testSeasonRepository
         )
     }
 
     @Test
     fun `Emits loading event on start and on finish`() = runBlocking {
-        getShowsByFilter().test {
+        getSeasons(showId = 1).test {
             assert(awaitItem() is Resource.Loading)
             assert(awaitItem() is Resource.Success)
             assert(awaitItem() is Resource.Loading)

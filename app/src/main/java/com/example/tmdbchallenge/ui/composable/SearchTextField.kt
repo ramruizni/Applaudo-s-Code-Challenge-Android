@@ -1,23 +1,18 @@
 package com.example.tmdbchallenge.ui.composable
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,15 +26,22 @@ fun SearchTextField(
     placeholder: String,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
+    val focusRequester = remember { FocusRequester() }
     BasicTextField(
         value = text,
         onValueChange = onValueChange,
         modifier = modifier
             .fillMaxWidth()
-            .height(32.dp),
+            .height(32.dp)
+            .focusRequester(focusRequester),
         interactionSource = interactionSource,
         singleLine = true
     ) {
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
+
+
         TextFieldDefaults.TextFieldDecorationBox(
             value = text,
             innerTextField = it,

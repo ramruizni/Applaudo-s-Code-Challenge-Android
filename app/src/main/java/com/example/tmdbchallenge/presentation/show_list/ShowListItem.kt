@@ -9,12 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tmdbchallenge.commons.Constants.API_IMAGE_URL
 import com.example.tmdbchallenge.domain.model.Show
+import com.example.tmdbchallenge.ui.composable.ImageErrorPlaceholder
+import com.example.tmdbchallenge.ui.composable.ImageLoadingIndicator
 import com.example.tmdbchallenge.ui.composable.RatingStars
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
@@ -38,7 +39,13 @@ fun ShowListItem(
             imageOptions = ImageOptions(
                 contentScale = ContentScale.FillHeight,
                 alignment = Alignment.Center
-            )
+            ),
+            loading = {
+                ImageLoadingIndicator()
+            },
+            failure = {
+                ImageErrorPlaceholder()
+            }
         )
         Column(
             modifier = modifier

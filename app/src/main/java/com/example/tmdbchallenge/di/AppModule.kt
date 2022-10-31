@@ -1,19 +1,14 @@
 package com.example.tmdbchallenge.di
 
 import android.app.Application
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.example.tmdbchallenge.commons.Constants.SHARED_PREF_NAME
 import com.example.tmdbchallenge.testability.DefaultDispatchers
 import com.example.tmdbchallenge.testability.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -29,17 +24,6 @@ object AppModule {
             MODE_PRIVATE
         )
     }
-
-    @Provides
-    @Singleton
-    fun provideGlideInstance(
-        @ApplicationContext app: Context
-    ) = Glide.with(app).setDefaultRequestOptions(
-        RequestOptions()
-            //.placeholder(android.R.drawable.ic_lock_lock)
-            //.error(android.R.drawable.ic_lock_lock)
-            .diskCacheStrategy(DiskCacheStrategy.DATA)
-    )
 
     @Provides
     @Singleton

@@ -9,8 +9,8 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class GetShowsByFilterUseCaseTest {
-    private lateinit var getShowsByFilter: GetShowsByFilterUseCase
+class GetShowsByNameUseCaseTest {
+    private lateinit var getShowsByName: GetShowsByNameUseCase
     private lateinit var testDispatchers: TestDispatchers
     private lateinit var testShowRepository: ShowRepository
 
@@ -18,7 +18,7 @@ class GetShowsByFilterUseCaseTest {
     fun setUp() {
         testDispatchers = TestDispatchers()
         testShowRepository = TestShowRepository()
-        getShowsByFilter = GetShowsByFilterUseCase(
+        getShowsByName = GetShowsByNameUseCase(
             dispatchers = testDispatchers,
             showRepository = testShowRepository
         )
@@ -26,7 +26,7 @@ class GetShowsByFilterUseCaseTest {
 
     @Test
     fun `Emits loading event on start and on finish`() = runBlocking {
-        getShowsByFilter().test {
+        getShowsByName(name = "A show name").test {
             assert(awaitItem() is Resource.Loading)
             assert(awaitItem() is Resource.Success)
             assert(awaitItem() is Resource.Loading)

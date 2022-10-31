@@ -13,6 +13,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.example.tmdbchallenge.commons.Constants
 import com.example.tmdbchallenge.domain.model.Episode
+import com.example.tmdbchallenge.ui.composable.ImageErrorPlaceholder
+import com.example.tmdbchallenge.ui.composable.ImageLoadingIndicator
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -36,7 +38,13 @@ fun EpisodeItem(
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.Center
-            )
+            ),
+            loading = {
+                ImageLoadingIndicator()
+            },
+            failure = {
+                ImageErrorPlaceholder()
+            }
         )
         Column(
             modifier = Modifier
