@@ -1,6 +1,7 @@
 package com.example.tmdbchallenge.presentation.login
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -8,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -57,6 +59,7 @@ fun LoginScreen(
             .padding(24.dp),
         verticalArrangement = Arrangement.Center
     ) {
+        val isDark = isSystemInDarkTheme()
 
         Image(
             painter = painterResource(id = R.drawable.app_logo_login), contentDescription = null,
@@ -64,7 +67,7 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .aspectRatio(2f),
             contentScale = ContentScale.Fit,
-            //colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
+            colorFilter = if (isDark) ColorFilter.tint(MaterialTheme.colorScheme.primary) else null
         )
 
         Spacer(modifier = Modifier.height(40.dp))
