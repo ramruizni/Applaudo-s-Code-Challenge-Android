@@ -1,10 +1,12 @@
 package com.example.tmdbchallenge.presentation.profile
 
+import android.content.SharedPreferences
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tmdbchallenge.commons.Constants
 import com.example.tmdbchallenge.commons.Resource
 import com.example.tmdbchallenge.domain.use_case.profile.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val useCases: ProfileUseCases
+    private val useCases: ProfileUseCases,
+    private val preferences: SharedPreferences
 ) : ViewModel() {
 
     var state by mutableStateOf(ProfileState())
@@ -35,6 +38,7 @@ class ProfileViewModel @Inject constructor(
             is ProfileEvent.OnLogoutDialogPress -> {
                 state = state.copy(showLogoutDialog = false)
                 viewModelScope.launch {
+                    preferences.edit().putBoolean(Constants.SHARED_PREF_IS_LOGGED_IN, false).apply()
                     channel.send(ProfileEvent.OnLogoutDialogPress(event.submit))
                 }
             }
