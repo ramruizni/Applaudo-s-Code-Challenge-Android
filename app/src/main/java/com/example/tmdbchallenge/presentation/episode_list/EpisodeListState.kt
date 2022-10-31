@@ -8,5 +8,8 @@ data class EpisodeListState(
     val show: Show? = null,
     val season: Season? = null,
     val episodes: List<Episode> = emptyList(),
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+
+    val errorTriggered: Boolean = false,
+    val functionToRetry: (() -> Unit)? = null,
 )

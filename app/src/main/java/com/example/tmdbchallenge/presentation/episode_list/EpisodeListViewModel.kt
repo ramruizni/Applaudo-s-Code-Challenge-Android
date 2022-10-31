@@ -26,36 +26,55 @@ class EpisodeListViewModel @Inject constructor(
     init {
         state = state.copy(show = stateHandle.get<Show>("show"))
         state = state.copy(season = stateHandle.get<Season>("season"))
-        getSeasons()
+        runAllowingRetry {
+            getEpisodes()
+        }
     }
 
-    private fun getSeasons() {
-        viewModelScope.launch {
-            state.season?.let { season ->
-                state.show?.let { show ->
-                    useCases.getEpisodes(
-                        showId = show.id,
-                        seasonNumber = season.seasonNumber,
-                        seasonId = season.id
-                    )
-                        .collect { result ->
-                            when (result) {
-                                is Resource.Success -> {
-                                    result.data?.let { seasons ->
-                                        state = state.copy(episodes = seasons)
-                                    }
-                                }
-                                is Resource.Error -> {
-                                    // TODO: Propagate error to view
-                                }
-                                is Resource.Loading -> {
-                                    state = state.copy(isLoading = result.isLoading)
-                                }
-                            }
-                        }
-                }
-
+    fun onEvent(event: EpisodeListEvent) {
+        when (event) {
+            is EpisodeListEvent.RetryAfterFailure -> {
+                retryAfterFailure()
             }
         }
+    }
+
+    private fun getEpisodes() {
+        if (state.season == null || state.show == null) return
+        viewModelScope.launch {
+            useCases.getEpisodes(
+                showId = state.show!!.id,
+                seasonNumber = state.season!!.seasonNumber,
+                seasonId = state.season!!.id
+            )
+                .collect { result ->
+                    when (result) {
+                        is Resource.Success -> {
+                            result.data?.let { seasons ->
+                                state = state.copy(episodes = seasons)
+                            }
+                        }
+                        is Resource.Error -> {
+                            state = state.copy(errorTriggered = true)
+                        }
+                        is Resource.Loading -> {
+                            state = state.copy(isLoading = result.isLoading)
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun runAllowingRetry(functionToRetry: () -> Unit) {
+        state = state.copy(
+            functionToRetry = functionToRetry,
+            errorTriggered = false
+        )
+        functionToRetry()
+    }
+
+    private fun retryAfterFailure() {
+        state = state.copy(errorTriggered = false)
+        state.functionToRetry?.let { it() }
     }
 }

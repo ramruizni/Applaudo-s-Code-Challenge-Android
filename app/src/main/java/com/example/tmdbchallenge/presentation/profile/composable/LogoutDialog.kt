@@ -33,7 +33,7 @@ fun LogoutDialog(
             ) {
                 Column(
                     modifier = Modifier
-                        .background(Color.White)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
                         .padding(top = 24.dp, start = 24.dp, end = 17.dp, bottom = 8.dp)
                 ) {
                     Text(

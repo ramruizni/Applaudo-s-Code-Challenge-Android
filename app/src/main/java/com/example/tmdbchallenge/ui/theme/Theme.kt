@@ -10,18 +10,29 @@ import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80,
+    primary = DarkPrimary,
+    secondary = DarkSecondary,
+    tertiary = DarkTertiary,
+    onTertiary = DarkOnTertiary,
+    surface = DarkSurface,
+    onSurface = DarkOnSurface,
+    background = DarkBackground,
+    primaryContainer = DarkPrimaryContainer,
+    outline = DarkOutline,
+    outlineVariant = DarkOutlineVariant,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF6243FF),
-    secondary = Color.White,
-    tertiary = Color(0xFFD5D8DB),
-    surface = Color(0xFF6243FF),
-    //surfaceVariant = Color(0xFF0013CA),
-    background = Color(0xFFF0F2F5)
+    primary = LightPrimary,
+    secondary = LightSecondary,
+    tertiary = LightTertiary,
+    onTertiary = LightOnTertiary,
+    surface = LightSurface,
+    onSurface = LightOnSurface,
+    background = LightBackground,
+    primaryContainer = LightPrimaryContainer,
+    outline = LightOutline,
+    outlineVariant = LightOutlineVariant,
 )
 
 @Composable
@@ -49,7 +60,7 @@ fun TMDBChallengeTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = if (darkTheme) TypographyDark else TypographyLight,
         content = content
     )
 }

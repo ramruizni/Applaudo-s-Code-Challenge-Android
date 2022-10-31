@@ -43,7 +43,7 @@ fun EditProfileDialog(
             ) {
                 Column(
                     modifier = Modifier
-                        .background(Color.White)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
                         .padding(16.dp)
                         .fillMaxWidth()
                 ) {

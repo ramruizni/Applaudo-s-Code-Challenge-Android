@@ -20,6 +20,7 @@ import com.example.tmdbchallenge.presentation.destinations.ShowDetailsScreenDest
 import com.example.tmdbchallenge.ui.composable.SearchFilters
 import com.example.tmdbchallenge.ui.composable.SearchTextField
 import com.example.tmdbchallenge.ui.composable.box.EmptyListBox
+import com.example.tmdbchallenge.ui.composable.box.RetryBox
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
@@ -108,10 +109,6 @@ fun ShowListScreen(
                 viewModel.onEvent(ShowListEvent.OnFirstVisibleListIndex(firstVisibleIndex))
             }
 
-            if (state.shows.isEmpty()) {
-                EmptyListBox(text = stringResource(R.string.show_list_empty))
-            }
-
             Spacer(modifier = Modifier.height(24.dp))
             SearchFilters(
                 currentFilter = state.showFilter,
@@ -127,26 +124,34 @@ fun ShowListScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                LazyVerticalGrid(
-                    state = gridState,
-                    columns = GridCells.Fixed(2),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                ) {
-                    items(state.shows.size) { index ->
-                        val show = state.shows[index]
-                        ShowListItem(
-                            modifier = Modifier
-                                .clickable {
-                                    navigator.navigate(
-                                        direction = ShowDetailsScreenDestination(show = show),
-                                        onlyIfResumed = true
-                                    )
-                                },
-                            show = show
-                        )
+                if (state.errorTriggered) {
+                    RetryBox(text = stringResource(R.string.show_list_retry)) {
+                        viewModel.onEvent(ShowListEvent.RetryAfterFailure)
+                    }
+                } else if (state.shows.isEmpty()) {
+                    EmptyListBox(text = stringResource(R.string.show_list_empty))
+                } else {
+                    LazyVerticalGrid(
+                        state = gridState,
+                        columns = GridCells.Fixed(2),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    ) {
+                        items(state.shows.size) { index ->
+                            val show = state.shows[index]
+                            ShowListItem(
+                                modifier = Modifier
+                                    .clickable {
+                                        navigator.navigate(
+                                            direction = ShowDetailsScreenDestination(show = show),
+                                            onlyIfResumed = true
+                                        )
+                                    },
+                                show = show
+                            )
+                        }
                     }
                 }
             }

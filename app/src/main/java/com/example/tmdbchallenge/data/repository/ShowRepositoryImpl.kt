@@ -34,7 +34,7 @@ class ShowRepositoryImpl @Inject constructor(
         }
 
         val listFromRemote = responseFiltered.results.map { it.toShow() }
-        //dao.insertAll(listFromRemote.map { it.toEntity() })
+        dao.insertAll(listFromRemote.map { it.toEntity() })
 
         if (lastAppliedFilter == showFilter) {
             cachedList.addAll(listFromRemote)

@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.example.tmdbchallenge.commons.Constants
@@ -26,7 +25,7 @@ fun SeasonItem(
         modifier = modifier
             .fillMaxWidth()
             .shadow(elevation = 8.dp, shape = RoundedCornerShape(8.dp))
-            .background(Color.White),
+            .background(MaterialTheme.colorScheme.primaryContainer),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -53,7 +52,7 @@ fun SeasonItem(
             Text(
                 text = "${season.episodeCount} Episodes",
                 style = MaterialTheme.typography.titleSmall.copy(
-                    color = Color(0xFF6243FF)
+                    color = MaterialTheme.colorScheme.primary
                 )
             )
             Spacer(modifier = Modifier.height(8.dp))

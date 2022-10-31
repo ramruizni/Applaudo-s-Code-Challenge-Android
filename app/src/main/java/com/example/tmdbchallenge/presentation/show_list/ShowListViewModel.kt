@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShowListViewModel @Inject constructor(
-    private val useCases: ShowListUseCases
+    private val useCases: ShowListUseCases,
 ) : ViewModel() {
 
     var state by mutableStateOf(ShowListState())
@@ -43,26 +43,31 @@ class ShowListViewModel @Inject constructor(
                 searchJob?.cancel()
                 searchJob = viewModelScope.launch {
                     delay(500L)
-                    getShows(1)
+                    getShows(page = 1)
                 }
             }
             is ShowListEvent.FilterChanged -> {
                 state = state.copy(showFilter = event.filter)
-                getShows(1)
+                getShows(page = 1)
+            }
+            is ShowListEvent.RetryAfterFailure -> {
+                retryAfterFailure()
             }
         }
     }
 
     private fun getShows(page: Int) {
-        viewModelScope.launch {
-            if (state.showNameQuery.isNullOrEmpty()) {
-                useCases
-                    .getShowsByFilter(state.showFilter, page)
-                    .collect { collectGetShowsResult(it) }
-            } else {
-                useCases
-                    .getShowsByName(state.showNameQuery!!, page)
-                    .collect { collectGetShowsResult(it) }
+        runAllowingRetry {
+            viewModelScope.launch {
+                if (state.showNameQuery.isNullOrEmpty()) {
+                    useCases
+                        .getShowsByFilter(state.showFilter, page)
+                        .collect { collectGetShowsResult(it) }
+                } else {
+                    useCases
+                        .getShowsByName(state.showNameQuery!!, page)
+                        .collect { collectGetShowsResult(it) }
+                }
             }
         }
     }
@@ -71,17 +76,29 @@ class ShowListViewModel @Inject constructor(
         when (result) {
             is Resource.Success -> {
                 result.data?.let { shows ->
-                    state = state.copy(shows = shows)
-                    state = state.copy(isRefreshing = false)
+                    state = state.copy(shows = shows, isRefreshing = false)
                 }
             }
             is Resource.Error -> {
-                // TODO: Propagate error to view
-                state = state.copy(isRefreshing = false)
+                state = state.copy(errorTriggered = true, isRefreshing = false)
+
             }
             is Resource.Loading -> {
                 state = state.copy(isLoading = result.isLoading)
             }
         }
+    }
+
+    private fun runAllowingRetry(functionToRetry: () -> Unit) {
+        state = state.copy(
+            functionToRetry = functionToRetry,
+            errorTriggered = false
+        )
+        functionToRetry()
+    }
+
+    private fun retryAfterFailure() {
+        state = state.copy(errorTriggered = false)
+        state.functionToRetry?.let { it() }
     }
 }

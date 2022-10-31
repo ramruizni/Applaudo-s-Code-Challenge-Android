@@ -24,12 +24,11 @@ class ProfileViewModel @Inject constructor(
     private val channel = Channel<ProfileEvent>()
     val event = channel.receiveAsFlow()
 
-    init {
-        getFavorites()
-    }
-
     fun onEvent(event: ProfileEvent) {
         when (event) {
+            is ProfileEvent.GetFavorites -> {
+                getFavorites()
+            }
             is ProfileEvent.ShowLogoutDialog -> {
                 state = state.copy(showLogoutDialog = true)
             }

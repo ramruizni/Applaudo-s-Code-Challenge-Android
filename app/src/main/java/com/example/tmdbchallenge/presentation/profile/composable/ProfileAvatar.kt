@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -33,6 +34,7 @@ fun ProfileAvatar(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_profile_ellipse),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onTertiary),
                 contentDescription = null,
                 modifier = Modifier
                     .size(102.dp)
@@ -41,6 +43,7 @@ fun ProfileAvatar(
             )
             Image(
                 painter = imageModel as Painter,
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
                 contentDescription = null,
                 modifier = Modifier
                     .size(72.dp)

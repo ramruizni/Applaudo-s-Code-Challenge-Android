@@ -45,6 +45,7 @@ fun ProfileScreen(
 
     val context = LocalContext.current
     LaunchedEffect(context) {
+        viewModel.onEvent(ProfileEvent.GetFavorites)
         viewModel
             .event
             .collect { event ->
@@ -135,7 +136,8 @@ fun ProfileScreen(
                 } else {
                     LazyRow(
                         state = rowState,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         item {
                             Spacer(modifier = Modifier.width(8.dp))

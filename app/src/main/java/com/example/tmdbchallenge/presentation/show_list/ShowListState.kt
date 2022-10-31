@@ -9,4 +9,7 @@ data class ShowListState(
     val shows: List<Show> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
+
+    val errorTriggered: Boolean = false,
+    val functionToRetry: (() -> Unit)? = null,
 )
